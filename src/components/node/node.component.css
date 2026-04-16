@@ -1,0 +1,300 @@
+/* Note: original bundle uses url(assets/...) (relative). The leading slash on
+   url(/assets/...) here is required so Angular CLI's webpack resolves asset
+   paths from the project root rather than relative to this CSS file. */
+.node {
+  position:absolute;
+  cursor:pointer;
+  z-index:2
+}
+
+.chest-count {
+  width:100%;
+  text-align:right;
+  font-size:12px;
+  font-weight:700;
+  position:absolute;
+  bottom:-7px;
+  right:-5px;
+  color:#fff;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none
+}
+
+.warp {
+  background-image:url(/assets/node-icons/warp.png)
+}
+
+.tr-ledge, .warp {
+  background-size:cover;
+  background-repeat:no-repeat
+}
+
+.tr-ledge {
+  background-image:url(/assets/dungeon-tracker-icons/boss92.png)
+}
+
+.invisible {
+  display:none
+}
+
+.dungeon-unavailable, .unavailable, .unavailable-state {
+  background-color:#f08080
+}
+
+.dungeon, .dungeon-state {
+  background-color:blue
+}
+
+.open, .open-state {
+  background-color:#90ee90
+}
+
+.glitched-open, .glitched-state {
+  background-color:#00bfff
+}
+
+.dun-defeated, .dun-open-state, .dungeon-defeated {
+  background-color:#add8e6
+}
+
+.view, .view-state {
+  background-color:gold
+}
+
+.cleared, .defeated-boss, .dungeon-cleared, .dungeon-unavailable-cleared, .opened, .opened-state, .unavailable-open-state {
+  background-color:grey
+}
+
+.cleared, .dungeon-cleared, .dungeon-unavailable-cleared, .opened, .opened-state, .unavailable, .unavailable-open-state, .unavailable-state {
+  cursor:default
+}
+
+.dungeon-unavailable-cleared, .unavailable, .unavailable-open-state, .unavailable-state {
+  opacity:.5
+}
+
+.overworld-type {
+  width:5%;
+  height:5%;
+  margin:-2.5% -2.5%;
+  border:solid #000;
+  background-size:cover
+}
+
+.dungeon-type {
+  width:9%;
+  height:9%;
+  margin:-4.5% -4.5%;
+  background-size:100%
+}
+
+.dungeon-type, .in-dungeon-type {
+  background-repeat:no-repeat;
+  border:solid #000
+}
+
+.in-dungeon-type {
+  width:6%;
+  height:6%;
+  margin:-3% -3%;
+  background-position:50%;
+  background-size:cover
+}
+
+.icon-shown {
+  background-origin:content-box;
+  padding:2px
+}
+
+.bk-door, .open-door, .sk-door {
+  width:9%;
+  height:6%;
+  margin:-3% -4.5%
+}
+
+.open-door {
+  background-image:url(/assets/node-icons/open_door.png)
+}
+
+.sk-door {
+  background-image:url(/assets/node-icons/key_door.png)
+}
+
+.bk-door {
+  background-image:url(/assets/node-icons/big_door.png)
+}
+
+.closed-chest, .open-chest {
+  width:6%;
+  height:6%;
+  margin:-3% -3%
+}
+
+.closed-chest {
+  background-image:url(/assets/node-icons/closed_chest.png)
+}
+
+.open-chest {
+  background-image:url(/assets/node-icons/open_chest.png)
+}
+
+.big-chest, .open-big-chest {
+  width:7.5%;
+  height:6%;
+  margin:-3% -3.75%
+}
+
+.big-chest {
+  background-image:url(/assets/node-icons/closed_big_chest.png)
+}
+
+.open-big-chest {
+  background-image:url(/assets/node-icons/open_big_chest.png)
+}
+
+.spare-key {
+  background-image:url(/assets/node-icons/small_key.png)
+}
+
+.blind {
+  background-image:url(/assets/node-icons/blind.png)
+}
+
+.switch-blue {
+  background-image:url(/assets/node-icons/switch_blue.png)
+}
+
+.switch-red {
+  background-image:url(/assets/node-icons/switch_red.png)
+}
+
+.water-switch-off {
+  background-image:url(/assets/node-icons/water_switch_off.png)
+}
+
+.water-switch-on {
+  background-image:url(/assets/node-icons/water_switch_on.png)
+}
+
+.tt-floor {
+  background-image:url(/assets/node-icons/tt_floor_closed.png)
+}
+
+.tt-floor-open {
+  background-image:url(/assets/node-icons/tt_floor_open.png)
+}
+
+.push-block {
+  background-image:url(/assets/node-icons/push-block.png)
+}
+
+.empty {
+  background-image:url(/assets/node-icons/empty.png)
+}
+
+.portal {
+  background-image:url(/assets/node-icons/warp.png)
+}
+
+.mirror {
+  border-radius:50%;
+  background-image:url(/assets/item-icons/mirror.png)
+}
+
+.frog {
+  background-image:url(/assets/node-icons/frog.png)
+}
+
+.purple-chest {
+  background-image:url(/assets/node-icons/purple-chest.png)
+}
+
+.big-bomb {
+  background-image:url(/assets/node-icons/big-bomb.png)
+}
+
+.tablet {
+  background-image:url(/assets/node-icons/tablet.png)
+}
+
+.pedestal {
+  background-image:url(/assets/node-icons/pedestal.png)
+}
+
+.hint-tile {
+  background-image:url(/assets/node-icons/hint_tile.png)
+}
+
+.big-hint-tile {
+  background-image:url(/assets/item-icons/hintTile.png)
+}
+
+.sign {
+  background-image:url(/assets/item-icons/sign.png)
+}
+
+.duck {
+  background-image:url(/assets/node-icons/duck.png)
+}
+
+.hole {
+  background-image:url(/assets/node-icons/hole.png)
+}
+
+.water-warp {
+  background-image:url(/assets/node-icons/water-warp.png)
+}
+
+.sq-item {
+  width:60%;
+  margin-left:-30%;
+  background-size:cover;
+  background-color:#000
+}
+
+.lw-linkshouse {
+  background-image:url(/assets/node-icons/links_house.png)
+}
+
+.hc-sanctuary {
+  background-image:url(/assets/node-icons/sanctuary.png)
+}
+
+.lw-flute1 {
+  background-image:url(/assets/node-icons/mountain_cave.png)
+}
+
+.boss, .defeated-boss {
+  width:9%;
+  height:9%;
+  margin:-4.5% -4.5%
+}
+
+.invisible {
+  opacity:0
+}
+
+.faded {
+  display:none
+}
+
+@media (max-width:992px) {
+  .chest-count {
+    font-size:10px;
+    right:-4px;
+    bottom:-5px
+  }
+}
+
+@media (max-width:768px) {
+  .dungeon-type, .in-dungeon-type, .overworld-type {
+    border:1.5px solid #000
+  }
+  .chest-count {
+    font-size:8px;
+    right:-4px;
+    bottom:-5px
+  }
+}

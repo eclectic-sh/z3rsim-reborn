@@ -1,0 +1,42 @@
+.map {
+  position:relative;
+  width:100%;
+  padding-top:100%;
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:50%;
+  background-color:#000
+}
+
+.aligned-right {
+  float:right
+}
+
+app-dungeon-items {
+  position:absolute;
+  top:0
+}
+
+.map-footer {
+  width:100%;
+  height:20px;
+  background-color:#000;
+  color:#fff;
+  text-align:center
+}
+
+.icon {
+  width:20px
+}
+
+@media (max-width:768px) {
+  .map-footer {
+    height:40px;
+    line-height:40px
+  }
+  .map-footer span {
+    display:inline-block;
+    vertical-align:middle;
+    line-height:normal
+  }
+}

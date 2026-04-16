@@ -1,0 +1,169 @@
+/* Note: original bundle uses url(assets/...) (relative). The leading slash on
+   url(/assets/...) here is required so Angular CLI's webpack resolves asset
+   paths from the project root rather than relative to this CSS file. */
+.dungeon-chest, .dungeon-node-bg, .dungeon-prize, .node {
+  background-size:cover
+}
+
+.counter {
+  position:absolute;
+  bottom:-2px;
+  right:7px;
+  font-size:22px
+}
+
+.counter-smaller {
+  font-size:17px;
+  bottom:-7px
+}
+
+.dungeon-chest, .dungeon-node-bg, .node {
+  width:100%;
+  padding-bottom:100%;
+  height:0
+}
+
+.off {
+  opacity:.25
+}
+
+div {
+  color:#fff
+}
+
+.dungeon-node {
+  width:100%
+}
+
+.dungeon-node-bg {
+  position:absolute
+}
+
+.dungeon-initials, .dungeon-prize {
+  position:relative;
+  top:25%;
+  width:50%;
+  padding-top:50%
+}
+
+.dungeon-initials {
+  background-size:contain;
+  background-repeat:no-repeat
+}
+
+.dungeon-prize {
+  left:50%
+}
+
+.mm-medallion-text, .tr-medallion-text {
+  position:absolute;
+  font-weight:700;
+  color:#ddd
+}
+
+.mm-medallion-text {
+  top:33px
+}
+
+.tr-medallion-text {
+  top:5px;
+  right:9px
+}
+
+.dungeon-chest {
+  text-align:center;
+  font-size:30px;
+  font-weight:700
+}
+
+.dungeon-keys {
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:flex
+}
+
+.big-key-icon, .small-keys-icon {
+  background-size:contain;
+  width:50%;
+  padding-top:50%
+}
+
+.big-key-icon {
+  background-image:url(/assets/item-icons/bigKey.png)
+}
+
+.small-keys-icon {
+  background-image:url(/assets/item-icons/smallKey.png);
+  position:relative
+}
+
+.small-keys-text {
+  position:absolute;
+  font-size:16px;
+  top:5px;
+  right:1px
+}
+
+.grayscale {
+  opacity:.5;
+  filter:gray;
+  -webkit-filter:grayscale(1);
+  filter:grayscale(1)
+}
+
+.invisible {
+  visibility:hidden
+}
+
+@media (max-width:992px) {
+  .counter {
+    font-size:22px;
+    bottom:4px;
+    right:4px
+  }
+  .counter-smaller {
+    font-size:17px
+  }
+}
+
+@media (max-width:768px) {
+  .counter {
+    font-size:10px;
+    bottom:-4px;
+    right:1px
+  }
+  .counter-smaller {
+    font-size:8px;
+    right:0
+  }
+  .dungeon-chest {
+    font-size:10px
+  }
+  .big-key-icon, .small-keys-icon {
+    background-size:contain;
+    width:100%;
+    padding-top:100%
+  }
+  .dungeon-keys {
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -ms-flex-flow:column;
+    flex-flow:column
+  }
+  .small-keys-text {
+    font-size:12px;
+    top:2px;
+    right:2px
+  }
+  .mm-medallion-text, .tr-medallion-text {
+    font-size:10px;
+    font-weight:400
+  }
+  .mm-medallion-text {
+    top:10px
+  }
+  .tr-medallion-text {
+    top:0;
+    right:0
+  }
+}

@@ -1,0 +1,12 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    {{ itemLogEntry.region }}
+  </div>
+  <div class="panel-body">
+    <span class="line-icon-container">
+      <img class="icon" [src]="'assets/item-icons/' + shortName + '.png'">
+      <span *ngIf="subText" class="subText white-outline-text not-selectable">{{ subText }}</span>
+    </span>
+    {{ textLine }}
+  </div>
+</div>

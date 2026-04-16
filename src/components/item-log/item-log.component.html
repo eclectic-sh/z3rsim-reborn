@@ -1,0 +1,28 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <button btnCheckbox
+            class="btn btn-default"
+            name="showImportantButton"
+            tooltip="Show Only Important Items"
+            type="button"
+            [(ngModel)]="filterArgs.onlyImportantShown">
+      <i aria-hidden="true" class="fa fa-filter"></i>
+        <span class="visible-xs-inline visible-sm-inline"> Filter Trash Items</span>
+    </button>
+    <input class="form-control"
+           name="searchForm"
+           placeholder="Search"
+           type="text"
+           [(ngModel)]="filterArgs.searchQuery">
+    <button *ngIf="filterArgs.searchQuery !== ''"
+            class="btn btn-default"
+            (click)="onCleanText()">
+      <i aria-hidden="true" class="fa fa-times"></i>
+    </button>
+  </div>
+  <div class="panel-body item-log-body">
+    <app-item-line *ngFor="let entry of (itemLogList | itemLogFilter:filterArgs)"
+                   [itemLogEntry]="entry"
+                   [items]="items"></app-item-line>
+  </div>
+</div>

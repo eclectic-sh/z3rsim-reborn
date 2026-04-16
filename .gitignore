@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.angular-cli.cache/
+*.js.map
+
+.DS_Store
+.idea/
+.vscode/
+*.iml
+npm-debug.log*

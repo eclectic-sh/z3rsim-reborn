@@ -1,0 +1,65 @@
+:root {
+  --dark-background-color: #141414;
+  --dark-background-light-color: #444;
+  --dark-background-med-color: #777;
+  --dark-text-color: #eee;
+  --dark-text-light-color: #bbb;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+body {
+  position: relative;
+  margin: 0;
+  min-height: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+.stylized-font {
+  font-family: 'Hammersmith One', sans-serif;
+}
+
+.not-selectable {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.outline-text {
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+.white-outline-text {
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+}
+
+.dark-theme * .panel-default > .panel-heading,
+.dark-theme * .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--dark-background-med-color);
+  color: var(--dark-text-color);
+}
+
+.dark-theme * .panel-body.card-block.card-body,
+.dark-theme * .table-striped > tbody > tr:nth-of-type(2n) {
+  background-color: var(--dark-background-light-color);
+  color: var(--dark-text-color);
+}
+
+.popover-content {
+  color: #000;
+}
+
+.dark-theme * .text-muted {
+  color: #fff;
+}
+
+.panel-body {
+  padding-bottom: 0;
+}

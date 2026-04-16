@@ -1,0 +1,7 @@
+<p>
+  <img class="icon" [src]="'assets/item-icons/bigKey' + (dungeonItems.hasBigKey ? '' : 'Empty') + '.png'">
+  <img class="icon" [src]="'assets/item-icons/map' + (dungeonItems.hasMap ? '' : 'Empty') + '.png'">
+  <img class="icon" [src]="'assets/item-icons/compass' + (dungeonItems.hasCompass ? '' : 'Empty') + '.png'">
+  <img *ngIf="isChestCountShown" class="icon" [src]="'assets/dungeon-tracker-icons/chest' + getDungeonChestCountBg() + '.png'">
+  <img class="icon" src="assets/item-icons/smallKey.png"><span class="key-text">x{{ dungeonItems.smallKeys }}</span>
+</p>
