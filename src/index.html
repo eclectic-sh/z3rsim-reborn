@@ -23,9 +23,12 @@
 </script>
 <script>
   // Dynamically set base href based on current URL
+  // For GitHub Pages: https://DerpaholicRex.github.io/z3rsim-reborn/
+  // Update the fallback path to match your repo name
+  const repoName = 'z3rsim-reborn';
   const baseHref = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? '/'
-    : '/z3rsim_offline/';
+    : '/' + repoName + '/';
   document.write('<base href="' + baseHref + '">');
 </script>
 <html lang="en">
