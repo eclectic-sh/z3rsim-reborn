@@ -70,7 +70,7 @@ The app uses a **pre-2019 ALttPR seed format**. Current alttpr.com seeds won't l
    - `localStorage.getItem('seedMetadataPrefix')` → metadata prefix
    - Returns a fakeObservable that provides seedData.data = prefix + itemArray
    
-3. **Generate Seed** uses `https://api.allorigins.win/raw?url=` as a CORS proxy to call `https://alttpr.com/api/randomizer`, then follows the same save + reload flow.
+3. **Generate Seed** uses `https://api.allorigins.win/raw?url=` as a CORS proxy to call `https://alttpr.com/api/randomizer`, then follows the same save + reload flow. (Note: A dedicated OCI CORS proxy was developed but is currently bypassed due to HTTPS certificate limitations).
 
 ## Building
 ```bash
