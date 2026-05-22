@@ -10,35 +10,16 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" (click)="redirect('')"><span class="not-selectable title stylized-font">
-            Z3R Simulator <span class="version-text">v4</span>
-          </span> </a>
+            Z3R Simulator : Reborn <span class="version-text">v1</span>
+          </span> 
+        </a>
       </div>
 
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav">
-          <!-- Native offline integration buttons -->
-          <li *ngIf="!isGenerating">
-            <a type="button" id="generate-seed-button" (click)="onGenerateNewSeed()">
-              <i class="fa fa-magic"></i> Generate Seed
-            </a>
-          </li>
-          <li *ngIf="isGenerating">
-            <a type="button" id="generate-seed-button" class="disabled">
-              <i class="fa fa-spinner fa-spin"></i> Generating...
-            </a>
-          </li>
-          <li>
-            <a type="button" (click)="fileInput.click()">
-              <i class="fa fa-upload"></i> Load Spoiler Log
-            </a>
-            <input #fileInput type="file" accept=".json,.txt" style="display:none"
-                   (change)="onSpoilerLogFileSelected($event)">
-          </li>
-        </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a type="button" (click)="onToggleTheme()">
-            <i [ngClass]="buttonClass"></i> {{colorMode}}</a></li>
+            <i class="{{buttonClass}}"></i> {{colorMode}}</a></li>
           <li><a (click)="openModal(howToTemplate)">How To Play</a></li>
           <li><a (click)="redirect('changelog')">Changelog</a></li>
           <li><a (click)="redirect('support')">Support Us</a></li>
@@ -47,9 +28,9 @@
       </div>
     </div>
   </nav>
-<div class="whole-app" [ngClass]="isDarkTheme ? 'dark-theme' : ''">
+<div class="whole-app" [class.dark-theme]="isDarkTheme">
   <div class="container">
-    <div class="deobf-banner" role="alert">
+    <!-- <div class="deobf-banner" role="alert">
       <strong>Deobfuscation project notice.</strong>
       This is a deobfuscated build of Z3R Simulator, published as a readable
       starting point for people who want to fork, modify, or learn from the
@@ -57,7 +38,7 @@
       the seed format it understands is the pre-2019 ALttPR API -
       <strong>current seeds from alttpr.com will not load.</strong>
       A future fork may bring the seed handling up to date.
-    </div>
+    </div> -->
 
     <router-outlet></router-outlet>
   </div>
@@ -67,7 +48,7 @@
       Join our <a href="https://discord.gg/nPJpFQB" target="_blank">Z3RSim Discord</a>
     </p>
     <p>
-      Developed by Kyong92 -
+      Community Maintained project - originally developed by Kyong92
         <a href="https://www.twitch.tv/kyong92" target="_blank">
           <img src="assets/twitch_glitch_icon.png">
         </a> -
@@ -79,7 +60,7 @@
 </div>
 
 <ng-template #howToTemplate>
-  <div [ngClass]="isDarkTheme ? 'dark-theme' : ''">
+  <div [class.dark-theme]="isDarkTheme">
     <div class="modal-header">
       <h4 class="modal-title pull-left">How to Play</h4>
       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">

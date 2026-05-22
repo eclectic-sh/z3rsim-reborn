@@ -33,6 +33,8 @@ export class MainMenuComponent implements OnInit {
   lockedMap: string;
   preloadedMap: HTMLImageElement;
   seedInfo: string;
+  isGenerating: boolean;
+
   constructor(
     private _seedService: SeedService,
     private _router: Router,
@@ -58,6 +60,7 @@ export class MainMenuComponent implements OnInit {
     this.isAdvancedOWEnabled = 'inline-block';
     this.preloadedBosses = [];
     this.preloadedIcons = [];
+    this.isGenerating = false;
     this.openCrystalOptions = [
       {
         id: '0',
@@ -96,6 +99,12 @@ export class MainMenuComponent implements OnInit {
         label: 'Random',
       },
     ];
+    if(!localStorage.getItem('seedHash')){
+      this.shouldDisablePlay = true;
+    } else{
+      this.seedInfo = this._seedService.buildStringUrl();
+    }
+    
   }
 
   ngOnInit() {
@@ -389,31 +398,126 @@ export class MainMenuComponent implements OnInit {
     this._router.navigate(['/' + path]);
   }
 
-  /**
-   * Generate a new seed via the alttpr.com API proxy.
-   * Delegates to the AppComponent's method via appRef global.
-   */
   onGenerateNewSeed() {
-    var appComponent = (window as any).appRef;
-    if (appComponent && typeof appComponent.onGenerateNewSeed === 'function') {
-      var settings = {
-        generationType: this.generationType,
-        modeSelected: this.modeSelected,
-        swordsSelected: this.swordsSelected,
-        goalSelected: this.goalSelected,
-        dungeonItemsSelected: this.dungeonItemsSelected,
-        enemizerSelected: this.enemizerSelected,
-        itemPlacementSelected: this.itemPlacementSelected,
-        accessibilitySelected: this.accessibilitySelected,
-        openTowerSelected: this.openTowerSelected,
-        openGanonSelected: this.openGanonSelected,
-        hintsSelected: this.hintsSelected,
-        mapSelected: this.mapSelected,
-        seedNum: this.seedNum
-      };
-      appComponent.onGenerateNewSeed(settings);
-    }
-   this.seedInfo = this._seedService.buildStringUrl()
+    var me = this;
+    me.isGenerating = true;
 
+    var seedParams = {
+      glitches: 'none',
+      item_placement: this.itemPlacementSelected || 'advanced',
+      dungeon_items: this.dungeonItemsSelected || 'standard',
+      accessibility: this.accessibilitySelected || 'items',
+      goal: this.goalSelected || 'ganon',
+      crystals: {
+        ganon: this.openGanonSelected || '7',
+        tower: this.openTowerSelected || '7'
+      },
+      mode: this.modeSelected || 'open',
+      entrances: 'none',
+      hints: this.hintsSelected || 'on',
+      weapons: this.swordsSelected || 'randomized',
+      item: { pool: 'normal', functionality: 'normal' },
+      tournament: false,
+      spoilers: 'on',
+      lang: 'en',
+      enemizer: {
+        boss_shuffle: this.enemizerSelected || 'none',
+        enemy_shuffle: 'none',
+        enemy_damage: 'default',
+        enemy_health: 'default'
+      }
+    };
+
+    this._seedService.generateSeed(seedParams).then(function(spoilerData) {
+      me._seedService.saveSpoilerLogToLocalStorage(spoilerData.spoiler);
+      localStorage.setItem('seedHash', spoilerData && spoilerData.hash);
+
+      me._seedService.loadAndGenerateItemArray().then(function(itemArray) {
+        console.log('Item array generated:', itemArray && itemArray.length, 'locations');
+        localStorage.setItem('itemArray', itemArray ? itemArray.join('') : '');
+        me.showNotification('New seed generated successfully!', 'success');
+           if(!localStorage.getItem('seedHash')){
+            me.shouldDisablePlay = true;
+          }else{
+            me.seedInfo = me._seedService.buildStringUrl();
+            me.shouldDisablePlay = false;
+          }
+      });
+    }).catch(function(error) {
+      console.error('Seed generation failed:', error);
+      me.showNotification('Failed to generate seed: ' + error.message, 'error');
+    }).then(function() {
+      me.isGenerating = false;
+    });
+  }
+
+  onSpoilerLogFileSelected(event: Event) {
+    var me = this;
+    var input = event.target as HTMLInputElement;
+    var files = input.files;
+    var file = (files && files.length > 0) ? files[0] : null;
+    if (!file) return;
+
+    var reader = new FileReader();
+    var me = this;
+    reader.onload = function() {
+      try {
+        var text = reader.result as string;
+        var spoilerLogData = JSON.parse(text);
+        var seed = me._seedService.extractSeedHash(file.name);
+        if (seed) {
+          localStorage.setItem('seedHash', seed);
+        }
+        me._seedService.saveSpoilerLogToLocalStorage(spoilerLogData);
+        me._seedService.loadAndGenerateItemArray().then(function(itemArray) {
+          if (itemArray) {
+            localStorage.setItem('itemArray', itemArray.join(''));
+          }
+        });
+        
+        me.showNotification('Spoiler log successfully loaded! Reloading page...', 'success');
+        if(!localStorage.getItem('seedHash')){
+          me.shouldDisablePlay = true;
+        }else {
+          me.seedInfo = me._seedService.buildStringUrl()
+          me.shouldDisablePlay = false;
+        }
+      } catch (error) {
+        console.error('Error loading spoiler log:', error);
+        alert('Error loading spoiler log file. Please check the console for details.');
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  showNotification(message: string, type: string) {
+    var cls = type === 'success' ? 'alert-success' : 'alert-danger';
+    var existing = document.querySelector('.' + cls + '-notification');
+    if (existing) existing.remove();
+
+    var notification = document.createElement('div');
+    notification.className = 'alert ' + cls + ' ' + type + '-notification';
+    notification.setAttribute('role', 'alert');
+    notification.style.position = 'fixed';
+    notification.style.top = '20px';
+    notification.style.right = '20px';
+    notification.style.zIndex = '9999';
+    notification.style.minWidth = '300px';
+    notification.style.boxShadow = '0 4px 6px rgba(0,0,0,0.1)';
+    notification.innerHTML = '<strong>' + (type === 'success' ? 'Success:' : 'Error:') + '</strong> ' + message;
+
+    var closeBtn = document.createElement('button');
+    closeBtn.setAttribute('type', 'button');
+    closeBtn.className = 'close';
+    closeBtn.setAttribute('data-dismiss', 'alert');
+    closeBtn.setAttribute('aria-label', 'Close');
+    closeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+    closeBtn.onclick = function() { notification.remove(); };
+    notification.appendChild(closeBtn);
+    document.body.appendChild(notification);
+
+    setTimeout(function() {
+      if (notification.parentNode) notification.remove();
+    }, type === 'success' ? 5000 : 8000);
   }
 }
