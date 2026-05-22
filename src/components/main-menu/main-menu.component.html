@@ -129,9 +129,14 @@
 
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-8">
+       <button class="btn btn-success" type="button" style="margin-right: 10px;"
+              (click)="onGenerateNewSeed()">
+        <i class="fa fa-magic"></i> Generate Seed
+      </button>
       <button class="btn btn-primary" type="button"
               [disabled]="shouldDisablePlay"
               (click)="onSubmit()">Play</button>
+      <span *ngIf="seedInfo" style="margin-left: 10px;">{{seedInfo}}</span>
     </div>
   </div>
   <alert *ngIf="errorMessage" type="danger">
@@ -330,9 +335,14 @@
 
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-8">
+      <button class="btn btn-success" type="button" style="margin-right: 10px;"
+              (click)="onGenerateNewSeed()">
+        <i class="fa fa-magic"></i> Generate Seed
+      </button>
       <button class="btn btn-primary" type="button"
               [disabled]="shouldDisablePlay"
               (click)="onSubmit()">Play</button>
+      <span *ngIf="seedInfo" style="margin-left: 10px;">{{seedInfo}}</span>
     </div>
   </div>
   <alert *ngIf="errorMessage" type="danger">
@@ -373,9 +383,14 @@
 
   <div class="form-group">
     <div class="col-sm-offset-4 col-sm-8">
+      <button class="btn btn-success" type="button" style="margin-right: 10px;"
+              (click)="onGenerateNewSeed()">
+        <i class="fa fa-magic"></i> Generate Seed
+      </button>
       <button class="btn btn-primary" type="button"
               [disabled]="shouldDisablePlay"
               (click)="onSubmit()">Play</button>
+      <span *ngIf="seedInfo" style="margin-left: 10px;">{{seedInfo}}</span>
     </div>
   </div>
   <alert *ngIf="errorMessage" type="danger">

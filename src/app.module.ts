@@ -37,6 +37,7 @@ import { ItemLogFilterPipe } from './pipes/item-log-filter.pipe';
 
 import { GameService } from './services/game.service';
 import { SeedService } from './services/seed.service';
+import { ItemArrayService } from './services/item-array.service';
 import { ItemNamesService } from './services/item-names.service';
 import { WindowRef } from './services/window-ref.service';
 
@@ -80,6 +81,7 @@ import { WindowRef } from './services/window-ref.service';
     ItemNamesService,
     GameService,
     SeedService,
+    ItemArrayService,
     WindowRef,
   ],
   bootstrap: [AppComponent]

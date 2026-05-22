@@ -17,8 +17,23 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li (click)="redirect('')">
-            <a>Generate Seed</a>
+          <!-- Native offline integration buttons -->
+          <li *ngIf="!isGenerating">
+            <a type="button" id="generate-seed-button" (click)="onGenerateNewSeed()">
+              <i class="fa fa-magic"></i> Generate Seed
+            </a>
+          </li>
+          <li *ngIf="isGenerating">
+            <a type="button" id="generate-seed-button" class="disabled">
+              <i class="fa fa-spinner fa-spin"></i> Generating...
+            </a>
+          </li>
+          <li>
+            <a type="button" (click)="fileInput.click()">
+              <i class="fa fa-upload"></i> Load Spoiler Log
+            </a>
+            <input #fileInput type="file" accept=".json,.txt" style="display:none"
+                   (change)="onSpoilerLogFileSelected($event)">
           </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">

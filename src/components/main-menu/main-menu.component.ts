@@ -32,7 +32,7 @@ export class MainMenuComponent implements OnInit {
   lockedMode: string;
   lockedMap: string;
   preloadedMap: HTMLImageElement;
-
+  seedInfo: string;
   constructor(
     private _seedService: SeedService,
     private _router: Router,
@@ -387,5 +387,33 @@ export class MainMenuComponent implements OnInit {
 
   redirect(path) {
     this._router.navigate(['/' + path]);
+  }
+
+  /**
+   * Generate a new seed via the alttpr.com API proxy.
+   * Delegates to the AppComponent's method via appRef global.
+   */
+  onGenerateNewSeed() {
+    var appComponent = (window as any).appRef;
+    if (appComponent && typeof appComponent.onGenerateNewSeed === 'function') {
+      var settings = {
+        generationType: this.generationType,
+        modeSelected: this.modeSelected,
+        swordsSelected: this.swordsSelected,
+        goalSelected: this.goalSelected,
+        dungeonItemsSelected: this.dungeonItemsSelected,
+        enemizerSelected: this.enemizerSelected,
+        itemPlacementSelected: this.itemPlacementSelected,
+        accessibilitySelected: this.accessibilitySelected,
+        openTowerSelected: this.openTowerSelected,
+        openGanonSelected: this.openGanonSelected,
+        hintsSelected: this.hintsSelected,
+        mapSelected: this.mapSelected,
+        seedNum: this.seedNum
+      };
+      appComponent.onGenerateNewSeed(settings);
+    }
+   this.seedInfo = this._seedService.buildStringUrl()
+
   }
 }

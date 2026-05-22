@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+import { ItemArrayService } from './item-array.service';
 
 @Injectable()
 export class SeedService {
@@ -13,7 +14,10 @@ export class SeedService {
   lastSeedParams: { [key: string]: string };
   lastSeed: { [key: string]: any };
 
-  constructor(private _http: Http) {
+  constructor(
+    private _http: Http,
+    private _itemArrayService: ItemArrayService
+  ) {
     this._apiUrl = 'https://lttp-rando-seed-api.glitch.me/';
     this.webVersion = '4.1';
     if (true /* environment.production */) {
@@ -27,13 +31,20 @@ export class SeedService {
     this._http.get(this._apiUrl);
   }
 
+  buildStringUrl(seedHash?:string): string{
+     return 'https://alttpr.com/en/h/' + (seedHash || localStorage.getItem('seedHash'))
+  }
+  buildStringLabel(): string{
+     var seedHash = localStorage.getItem('seedHash');
+     var seedStr = seedHash
+      ? localStorage.getItem('seedHash') + ' -> ' + this.buildStringUrl(seedHash)
+      : 'BrXZ47EgQR4Qq8A: (Using Default Seed)';
+    return seedStr;
+  }
   getSeed(mode: string, params: any, isDaily = false, isQuals = false) {
     var url;
     var online = false;
-    var seedHash = localStorage.getItem('seedHash');
-    var seedStr = seedHash
-      ? `${localStorage.getItem('seedHash')} -> https://alttpr.com/en/h/${seedHash}`
-      : 'BrXZ47EgQR4Qq8A: (Using Default Seed)';
+    var seedStr = this.buildStringLabel();
     const fakeObservable = {
       prefix:
         localStorage.getItem('seedMetadataPrefix') || '000001xXJAo0A0ebe3WP10000010022000000000',
@@ -52,7 +63,7 @@ export class SeedService {
         reqGanon: '7',
         error: null,
       },
-      subscribe: (success, failure) => {
+      subscribe: function(success: any, failure: any) {
         if (fakeObservable.itemArray) {
           fakeObservable.seedData.data = fakeObservable.prefix + fakeObservable.itemArray;
         }
@@ -65,7 +76,7 @@ export class SeedService {
     var offlineResult = Object.create(fakeObservable);
     if (isQuals) {
       url = this._apiUrl + 'api/tseed?v=' + this.webVersion;
-      Object.keys(params).forEach((key) => {
+      Object.keys(params).forEach(function(key) {
         url += '&' + key + '=' + params[key];
       });
     } else if (isDaily) {
@@ -74,47 +85,36 @@ export class SeedService {
       url = this._apiUrl + 'api/seed?v=' + this.webVersion + '&mode=mystery';
     } else {
       url = this._apiUrl + 'api/seed?v=' + this.webVersion;
-      Object.keys(params).forEach((key) => {
+      Object.keys(params).forEach(function(key) {
         url += '&' + key + '=' + params[key];
       });
     }
     if (online) {
       return this._http
         .get(url)
-        .map((response) => {
+        .map(function(response) {
           var data = response.json();
           this.lastSeedTimestamp = Date.now();
           this.lastSeedParams = {};
           this.lastSeed = data;
           return data;
         })
-        // Original bug: catch handler never calls handleError - it references but doesn't invoke it.
-        // Original: .catch(() => { this.handleError })
-        // Fixed: .catch((error) => this.handleError(error))
-        .catch((error) => this.handleError(error));
+        .catch(function(error) { return this.handleError(error); });
     } else {
       return offlineResult;
     }
   }
 
   getStatus() {
-    // Original bug: subscribe references bare `e` (undefined) instead of `this.e`.
-    // Original: { e: {}, subscribe(success, failure) { success(e); } }
-    // Fixed: renamed `e` to `data`, changed `success(e)` to `success(this.data)`
+    var me = this;
     const fakeStatusObservable = {
       data: {},
-      subscribe(success, failure) {
+      subscribe: function(success: any, failure: any) {
         success(this.data);
       },
     };
     var statusUrl = this._apiUrl + 'api/status?v=' + this.webVersion;
     return fakeStatusObservable;
-    // return this._http
-    //     .get(statusUrl)
-    //     .map(function (response) {
-    //         return response.json();
-    //     })
-    //     .catch(this.handleError);
   }
 
   handleError(error: any) {
@@ -122,5 +122,86 @@ export class SeedService {
     return Observable.throw(
       error.json().error || 'Z3RSim seems to be offline. Please try again later.',
     );
+  }
+
+  // ---- Native Angular helper methods (replaces spoilerLogAdapter.js + globals) ----
+
+  saveSpoilerLogToLocalStorage(spoilerLogData: any): void {
+    try {
+      localStorage.setItem('z3r_spoiler_log', JSON.stringify(spoilerLogData));
+    } catch (e) {
+      console.error('Failed to save spoiler log', e);
+    }
+  }
+
+  loadAndGenerateItemArray(): Promise<any[]> {
+    var me = this;
+    return new Promise(function(resolve, reject) {
+      try {
+        var storedSpoilerLog = localStorage.getItem('z3r_spoiler_log');
+        var spoilerLog = storedSpoilerLog ? JSON.parse(storedSpoilerLog) : null;
+
+        if (!spoilerLog) {
+          resolve([]);
+          return;
+        }
+
+        // Fetch the hotfix JSON files at runtime
+        Promise.all([
+          fetch('./hotfix/itemNameToFullItemMap.json').then(function(r) { return r.json(); }),
+          fetch('./hotfix/spoilerToDetailedMap.json').then(function(r) { return r.json(); }),
+          fetch('./hotfix/detailedMap.json').then(function(r) { return r.json(); })
+        ]).then(function(results) {
+          var itemNameMap = results[0];
+          var spoilerMap = results[1];
+          var detailedMap = results[2];
+
+          // Generate seed metadata prefix
+          var seedPrefix = me._itemArrayService.generateSeedMetadataPrefix(spoilerLog);
+          localStorage.setItem('seedMetadataPrefix', seedPrefix);
+
+          // Generate the item array
+          var itemArray = me._itemArrayService.generateItemArray(
+            spoilerLog, itemNameMap, spoilerMap, detailedMap
+          );
+
+          resolve(itemArray);
+        }).catch(function(err) {
+          console.error('Error loading hotfix data:', err);
+          resolve([]);
+        });
+      } catch (error) {
+        console.error('Error generating item array:', error);
+        reject(error);
+      }
+    });
+  }
+
+  generateSeed(seedParams: any): Promise<any> {
+    var proxyUrl = 'https://z3r-proxy.derpaholicrex.workers.dev';
+    var fullUrl = proxyUrl + '/api/randomizer';
+
+    return fetch(fullUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(seedParams)
+    }).then(function(response) {
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new Error('Rate limit exceeded. Please wait before trying again.');
+        }
+        throw new Error('HTTP ' + response.status + ': ' + response.statusText);
+      }
+      return response.json();
+    });
+  }
+
+  extractSeedHash(fileName: string): string | null {
+    var lastUnderscoreIndex = fileName.lastIndexOf('_');
+    var extensionIndex = fileName.lastIndexOf('.');
+    if (lastUnderscoreIndex !== -1 && extensionIndex !== -1 && lastUnderscoreIndex < extensionIndex) {
+      return fileName.substring(lastUnderscoreIndex + 1, extensionIndex);
+    }
+    return null;
   }
 }
