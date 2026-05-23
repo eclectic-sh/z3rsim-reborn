@@ -10,11 +10,7 @@
     "types": [],
     "strict": false,
     "noImplicitAny": false,
-    "allowUnreachableCode": true,
-    "lib": [
-      "es2017",
-      "dom"
-    ]
+    "allowUnreachableCode": true
   },
   "include": ["**/*.ts"],
   "exclude": ["node_modules", "src/environments/environment.prod.ts"]
