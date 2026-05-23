@@ -1,89 +1,125 @@
 <div class="map" [ngStyle]="{'background-image': getMapBg()}" (click)="onMapClicked($event)">
-  <div *ngIf="!currentDungeon">
-    <app-node *ngFor="let location of gameService.overworldData[currentMap === 'light-world' ? 'lwLocations' : 'dwLocations']"
-      nodeType="overworld"
-      [nodeInfo]="location.mapNode"
-      [items]="items"
-      [config]="config"
-      (click)="onNodeClick(location.mapNode)"
-      (mouseover)="changeTooltip(location.mapNode)"
-      (mouseleave)="clearTooltip()">
-    </app-node>
-    <div *ngFor="let dungeon of gameService.dungeonsData">
-      <app-node *ngIf="(gameService.lwDuns.indexOf(dungeon.name) > -1 && currentMap === 'light-world') || (gameService.lwDuns.indexOf(dungeon.name) === -1 && currentMap === 'dark-world')"
-        nodeType="dungeon"
-        [nodeInfo]="dungeon.mapNode"
-        [dungeonItems]="items.getDungeonItems(dungeon.name)"
-        [config]="config"
-        (click)="onDungeonClick(dungeon.mapNode)"
-        (mouseover)="changeTooltip(dungeon.mapNode)"
-        (mouseleave)="clearTooltip()">
-      </app-node>
+  @if (!currentDungeon) {
+    <div>
+      @for (location of gameService.overworldData[currentMap === 'light-world' ? 'lwLocations' : 'dwLocations']; track location) {
+        <app-node
+          nodeType="overworld"
+          [nodeInfo]="location.mapNode"
+          [items]="items"
+          [config]="config"
+          (click)="onNodeClick(location.mapNode)"
+          (mouseover)="changeTooltip(location.mapNode)"
+          (mouseleave)="clearTooltip()">
+        </app-node>
+      }
+      @for (dungeon of gameService.dungeonsData; track dungeon) {
+        <div>
+          @if ((gameService.lwDuns.indexOf(dungeon.name) > -1 && currentMap === 'light-world') || (gameService.lwDuns.indexOf(dungeon.name) === -1 && currentMap === 'dark-world')) {
+            <app-node
+              nodeType="dungeon"
+              [nodeInfo]="dungeon.mapNode"
+              [dungeonItems]="items.getDungeonItems(dungeon.name)"
+              [config]="config"
+              (click)="onDungeonClick(dungeon.mapNode)"
+              (mouseover)="changeTooltip(dungeon.mapNode)"
+              (mouseleave)="clearTooltip()">
+            </app-node>
+          }
+        </div>
+      }
     </div>
-  </div>
-  <div *ngIf="currentDungeon">
-    <div *ngFor="let node of currentDungeonMap.nodes">
-      <app-node *ngIf="(node.accessibleSectionArray.indexOf(-1) > -1 || node.accessibleSectionArray.indexOf(items.currentRegionInMap) > -1) && (node.status !== 10 || items.mirror)"
-        nodeType="inside-dungeon"
-        [nodeInfo]="node.mapNode"
-        [dungeonItems]="currentDungeonItems"
-        [items]="items"
-        [config]="config"
-        (click)="onDungeonNodeClick(node.mapNode)"
-        (mouseover)="changeTooltip(node.mapNode)"
-        (mouseleave)="clearTooltip()">
-      </app-node>
+  }
+  @if (currentDungeon) {
+    <div>
+      @for (node of currentDungeonMap.nodes; track node) {
+        <div>
+          @if ((node.accessibleSectionArray.indexOf(-1) > -1 || node.accessibleSectionArray.indexOf(items.currentRegionInMap) > -1) && (node.status !== 10 || items.mirror)) {
+            <app-node
+              nodeType="inside-dungeon"
+              [nodeInfo]="node.mapNode"
+              [dungeonItems]="currentDungeonItems"
+              [items]="items"
+              [config]="config"
+              (click)="onDungeonNodeClick(node.mapNode)"
+              (mouseover)="changeTooltip(node.mapNode)"
+              (mouseleave)="clearTooltip()">
+            </app-node>
+          }
+        </div>
+      }
+      @if (mirrorNode && mirrorMap === currentDungeonMap.id && (mirrorNode.accessibleSectionArray.indexOf(-1) > -1 || mirrorNode.accessibleSectionArray.indexOf(items.currentRegionInMap) > -1)) {
+        <app-node
+          nodeType="inside-dungeon"
+          [nodeInfo]="mirrorNode.mapNode"
+          [dungeonItems]="currentDungeonItems"
+          [items]="items"
+          [config]="config"
+          (click)="onDungeonNodeClick(mirrorNode.mapNode)"
+          (mouseover)="changeTooltip(mirrorNode.mapNode)"
+          (mouseleave)="clearTooltip()">
+        </app-node>
+      }
     </div>
-    <app-node *ngIf="mirrorNode && mirrorMap === currentDungeonMap.id && (mirrorNode.accessibleSectionArray.indexOf(-1) > -1 || mirrorNode.accessibleSectionArray.indexOf(items.currentRegionInMap) > -1)"
-      nodeType="inside-dungeon"
-      [nodeInfo]="mirrorNode.mapNode"
-      [dungeonItems]="currentDungeonItems"
-      [items]="items"
-      [config]="config"
-      (click)="onDungeonNodeClick(mirrorNode.mapNode)"
-      (mouseover)="changeTooltip(mirrorNode.mapNode)"
-      (mouseleave)="clearTooltip()">
-    </app-node>
-  </div>
+  }
 
-  <div *ngIf="currentDungeonItems">
-    <app-dungeon-items
-      [dungeonItems]="currentDungeonItems"
-      [config]="config">
-    </app-dungeon-items>
-  </div>
+  @if (currentDungeonItems) {
+    <div>
+      <app-dungeon-items
+        [dungeonItems]="currentDungeonItems"
+        [config]="config">
+      </app-dungeon-items>
+    </div>
+  }
 </div>
 <div class="map-footer">
   <span>{{tooltip}}</span>
 </div>
 <div class="menu-buttons">
-  <button *ngIf="items.gameState === 4" class="btn btn-danger" (click)="onSaveAndQuit()">
-    Save &amp; Quit
-  </button>
-  <button *ngIf="canWarp()" class="btn btn-primary" (click)="onWarpClicked()">
-    {{warpButtonText}}
-  </button>
-  <button *ngIf="canFlute()" class="btn btn-primary" (click)="onFluteClicked()">
-    <img class="icon" src="assets/item-icons/flute.png">
-  </button>
-  <button *ngIf="!items.lwMapOpen && canViewMap('light-world')" class="btn btn-info" (click)="onCheckMap('lw')">
-    Check <img class="icon" src="assets/item-icons/map.png">
-  </button>
-  <button *ngIf="!items.dwMapOpen && canViewMap('dark-world')" class="btn btn-info" (click)="onCheckMap('dw')">
-    Check <img class="icon" src="assets/item-icons/map.png">
-  </button>
-  <button *ngIf="canViewMap('green-pendant')" class="btn btn-info" (click)="onCheckMap('gp')">
-    Check <img class="icon" src="assets/item-icons/pendantCourage.png">
-  </button>
-  <button *ngIf="canViewMap('red-crystals')" class="btn btn-info" (click)="onCheckMap('rc')">
-    Check <img class="icon" src="assets/item-icons/redCrystal.png">
-  </button>
-  <button *ngIf="!items.mmMedallionChecked && canViewMMMedallion() && !currentDungeon" class="btn btn-warning" (click)="checkMedallion('mm')">
-    Check <img class="icon" src="assets/dungeon-tracker-icons/boss82.png"><img class="icon" src="assets/dungeon-tracker-icons/medallion0.png">
-  </button>
-  <button *ngIf="!items.trMedallionChecked && canViewTRMedallion() && !currentDungeon" class="btn btn-warning" (click)="checkMedallion('tr')">
-    Check <img class="icon" src="assets/dungeon-tracker-icons/boss92.png"><img class="icon" src="assets/dungeon-tracker-icons/medallion0.png">
-  </button>
+  @if (items.gameState === 4) {
+    <button class="btn btn-danger" (click)="onSaveAndQuit()">
+      Save &amp; Quit
+    </button>
+  }
+  @if (canWarp()) {
+    <button class="btn btn-primary" (click)="onWarpClicked()">
+      {{warpButtonText}}
+    </button>
+  }
+  @if (canFlute()) {
+    <button class="btn btn-primary" (click)="onFluteClicked()">
+      <img class="icon" src="assets/item-icons/flute.png">
+    </button>
+  }
+  @if (!items.lwMapOpen && canViewMap('light-world')) {
+    <button class="btn btn-info" (click)="onCheckMap('lw')">
+      Check <img class="icon" src="assets/item-icons/map.png">
+    </button>
+  }
+  @if (!items.dwMapOpen && canViewMap('dark-world')) {
+    <button class="btn btn-info" (click)="onCheckMap('dw')">
+      Check <img class="icon" src="assets/item-icons/map.png">
+    </button>
+  }
+  @if (canViewMap('green-pendant')) {
+    <button class="btn btn-info" (click)="onCheckMap('gp')">
+      Check <img class="icon" src="assets/item-icons/pendantCourage.png">
+    </button>
+  }
+  @if (canViewMap('red-crystals')) {
+    <button class="btn btn-info" (click)="onCheckMap('rc')">
+      Check <img class="icon" src="assets/item-icons/redCrystal.png">
+    </button>
+  }
+  @if (!items.mmMedallionChecked && canViewMMMedallion() && !currentDungeon) {
+    <button class="btn btn-warning" (click)="checkMedallion('mm')">
+      Check <img class="icon" src="assets/dungeon-tracker-icons/boss82.png"><img class="icon" src="assets/dungeon-tracker-icons/medallion0.png">
+    </button>
+  }
+  @if (!items.trMedallionChecked && canViewTRMedallion() && !currentDungeon) {
+    <button class="btn btn-warning" (click)="checkMedallion('tr')">
+      Check <img class="icon" src="assets/dungeon-tracker-icons/boss92.png"><img class="icon" src="assets/dungeon-tracker-icons/medallion0.png">
+    </button>
+  }
 
   <button class="btn btn-danger aligned-right" (click)="openModal(reportTemplate)">
     Report Seed
@@ -110,9 +146,11 @@
   </div>
 </ng-template>
 
-<div *ngIf="isDev">
-  <br>
-  <br>
-  <button (click)="getAll()">get All</button>
-  <button (click)="getBootsDw()">get Some</button>
-</div>
+@if (isDev) {
+  <div>
+    <br>
+      <br>
+        <button (click)="getAll()">get All</button>
+        <button (click)="getBootsDw()">get Some</button>
+      </div>
+    }

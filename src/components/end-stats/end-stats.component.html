@@ -2,57 +2,73 @@
 
 <accordion>
   <accordion-group heading="Quest Performance" [isOpen]="true">
-    <div *ngFor="let table of getQuestPerformanceTables()">
-      <h3>{{ table[0] }}</h3>
-      <table class="table table-striped">
-        <tbody>
-          <tr *ngFor="let row of table[1]">
-            <td class="col-xs-6">{{ row[0] }}</td>
-            <td class="col-xs-6">{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    @for (table of getQuestPerformanceTables(); track table) {
+      <div>
+        <h3>{{ table[0] }}</h3>
+        <table class="table table-striped">
+          <tbody>
+            @for (row of table[1]; track row) {
+              <tr>
+                <td class="col-xs-6">{{ row[0] }}</td>
+                <td class="col-xs-6">{{ row[1] }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </accordion-group>
   <accordion-group heading="Dungeon Info">
-    <div *ngFor="let table of getDungeonInfoTables()">
-      <h3>{{ table[0] }}</h3>
-      <table class="table table-striped">
-        <tbody>
-          <tr *ngFor="let row of table[1]">
-            <td class="col-xs-6">{{ row[0] }}</td>
-            <td class="col-xs-6">{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    @for (table of getDungeonInfoTables(); track table) {
+      <div>
+        <h3>{{ table[0] }}</h3>
+        <table class="table table-striped">
+          <tbody>
+            @for (row of table[1]; track row) {
+              <tr>
+                <td class="col-xs-6">{{ row[0] }}</td>
+                <td class="col-xs-6">{{ row[1] }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </accordion-group>
   <accordion-group heading="Item Info">
-    <div *ngFor="let table of getItemInfoTables()">
-      <h3>{{ table[0] }}</h3>
-      <table class="table table-striped">
-        <tbody>
-          <tr *ngFor="let row of table[1]">
-            <td class="col-xs-1">
-              <img class="icon" [src]="'assets/item-icons/' + row[0] + '.png'">
-            </td>
-            <td class="col-xs-5">{{ row[1] }}</td>
-            <td class="col-xs-6">{{ row[2] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    @for (table of getItemInfoTables(); track table) {
+      <div>
+        <h3>{{ table[0] }}</h3>
+        <table class="table table-striped">
+          <tbody>
+            @for (row of table[1]; track row) {
+              <tr>
+                <td class="col-xs-1">
+                  <img class="icon" [src]="'assets/item-icons/' + row[0] + '.png'">
+                </td>
+                <td class="col-xs-5">{{ row[1] }}</td>
+                <td class="col-xs-6">{{ row[2] }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </accordion-group>
   <accordion-group heading="Seed Info">
-    <div *ngFor="let table of getSeedDataTables()">
-      <table class="table table-striped">
-        <tbody>
-          <tr *ngFor="let row of table[1]">
-            <td class="col-xs-6">{{ row[0] }}</td>
-            <td class="col-xs-6">{{ row[1] }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    @for (table of getSeedDataTables(); track table) {
+      <div>
+        <table class="table table-striped">
+          <tbody>
+            @for (row of table[1]; track row) {
+              <tr>
+                <td class="col-xs-6">{{ row[0] }}</td>
+                <td class="col-xs-6">{{ row[1] }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
   </accordion-group>
 </accordion>

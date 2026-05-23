@@ -1,26 +1,28 @@
 <div class="container-fluid">
   <div>
-    <app-tracker-node class="col-xs-5ths"
-      *ngFor="let item of itemsToTrack"
-      [isItem]="true"
-      [itemName]="item"
-      [value]="items[item]"
-      [items]="items"
-      [config]="config"
-      (click)="onItemClicked(item)">
-    </app-tracker-node>
+    @for (item of itemsToTrack; track item) {
+      <app-tracker-node class="col-xs-5ths"
+        [isItem]="true"
+        [itemName]="item"
+        [value]="items[item]"
+        [items]="items"
+        [config]="config"
+        (click)="onItemClicked(item)">
+      </app-tracker-node>
+    }
   </div>
 </div>
 <div class="container-fluid">
   <div>
-    <app-tracker-node class="col-xs-2"
-      *ngFor="let dungeon of getDungeons()"
-      [ngClass]="(config.dungeonItems !== 'standard' && config.dungeonItems !== 'mc') || config.isMystery ? 'col-xs-2' : 'col-xs-5ths'"
-      [isItem]="false"
-      [dungeonData]="dungeon"
-      [items]="items"
-      [config]="config">
-    </app-tracker-node>
+    @for (dungeon of getDungeons(); track dungeon) {
+      <app-tracker-node class="col-xs-2"
+        [ngClass]="(config.dungeonItems !== 'standard' && config.dungeonItems !== 'mc') || config.isMystery ? 'col-xs-2' : 'col-xs-5ths'"
+        [isItem]="false"
+        [dungeonData]="dungeon"
+        [items]="items"
+        [config]="config">
+      </app-tracker-node>
+    }
   </div>
 </div>
 <span class="rupee-count">{{ items.stats.rupeeCount }} Rupees Collected</span>

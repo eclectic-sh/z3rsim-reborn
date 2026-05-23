@@ -4,13 +4,13 @@ import { DungeonPrize } from '../../models/dungeon-prize.enum';
 import { Items } from '../../models/items.model';
 import { Config } from '../../models/config.model';
 import { Dungeon } from '../../models/dungeon.model';
-import { NgIf, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'app-tracker-node',
     templateUrl: './tracker-node.component.html',
     styleUrls: ['./tracker-node.component.css'],
-    imports: [NgIf, NgClass]
+    imports: [NgClass]
 })
 export class TrackerNodeComponent implements OnInit {
   duns: string[];

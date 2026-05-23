@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ButtonRadioDirective } from 'ngx-bootstrap/buttons';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgStyle, NgClass, NgFor } from '@angular/common';
+import { NgStyle, NgClass } from '@angular/common';
 import { PopoverDirective } from 'ngx-bootstrap/popover';
 import { AlertComponent } from 'ngx-bootstrap/alert';
 
@@ -11,7 +11,7 @@ import { AlertComponent } from 'ngx-bootstrap/alert';
     selector: 'app-main-menu',
     templateUrl: './main-menu.component.html',
     styleUrls: ['./main-menu.component.css'],
-    imports: [ButtonRadioDirective, FormsModule, NgIf, PopoverDirective, NgStyle, NgClass, AlertComponent, NgFor]
+    imports: [ButtonRadioDirective, FormsModule, PopoverDirective, NgStyle, NgClass, AlertComponent]
 })
 export class MainMenuComponent implements OnInit {
   generationType: string;

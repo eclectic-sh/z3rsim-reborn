@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DungeonPrize } from '../../models/dungeon-prize.enum';
 import { Config } from '../../models/config.model';
-import { NgIf } from '@angular/common';
+
 
 @Component({
     selector: 'app-dungeon-items',
     templateUrl: './dungeon-item-count.component.html',
     styleUrls: ['./dungeon-item-count.component.css'],
-    imports: [NgIf]
+    imports: []
 })
 export class DungeonItemCountComponent implements OnInit {
   isChestCountShown: boolean;

@@ -4,13 +4,13 @@ import { ItemNamesService } from '../../services/item-names.service';
 import { Items } from '../../models/items.model';
 import { Config } from '../../models/config.model';
 import { AccordionComponent, AccordionPanelComponent } from 'ngx-bootstrap/accordion';
-import { NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'app-end-stats',
     templateUrl: './end-stats.component.html',
     styleUrls: ['./end-stats.component.css'],
-    imports: [AccordionComponent, AccordionPanelComponent, NgFor]
+    imports: [AccordionComponent, AccordionPanelComponent]
 })
 export class EndStatsComponent implements OnInit {
   @Input() items: Items;

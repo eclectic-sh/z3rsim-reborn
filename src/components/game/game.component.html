@@ -1,49 +1,55 @@
 <h1 class="title"><small class="hidden-xs">{{ seedDescription }}</small></h1>
-<div *ngIf="gameState === 'loading'" class="container">
-  Loading...
-</div>
-<div *ngIf="gameState === 'playing'" class="container-fluid">
-
-  <app-item-tracker class="col-md-3 col-sm-4 col-xs-3 game-obj"
-    [items]="items"
-    [config]="config"
-    [dungeonsData]="dungeonsData">
-  </app-item-tracker>
-  <app-map class="col-md-6 col-sm-8 col-xs-9 game-obj"
-    [items]="items"
-    [(currentMap)]="currentMap"
-    [config]="config"
-    (addedItem)="onAddedItem($event, 'get')"
-    (viewItem)="onAddedItem($event, 'view')"
-    (cantItem)="onCantItem($event)"
-    (hintCheck)="onHintChecked($event)"
-    (finishedDungeon)="onDungeonFinished($event)"
-    (onGameFinished)="onGameFinished()">
-  </app-map>
-  <app-item-log class="col-md-3 col-xs-12 game-obj"
-    [itemLogList]="itemLog"
-    [items]="items">
-  </app-item-log>
-  <app-options></app-options>
-  <app-game-menu class="col-sm-6 game-obj"
-    [items]="items"
-    [currentMap]="currentMap">
-  </app-game-menu>
-
-</div>
-<div *ngIf="gameState === 'finished'" class="container">
-  <div>
-    <app-end-stats
+@if (gameState === 'loading') {
+  <div class="container">
+    Loading...
+  </div>
+}
+@if (gameState === 'playing') {
+  <div class="container-fluid">
+    <app-item-tracker class="col-md-3 col-sm-4 col-xs-3 game-obj"
       [items]="items"
-      [config]="config">
-    </app-end-stats>
+      [config]="config"
+      [dungeonsData]="dungeonsData">
+    </app-item-tracker>
+    <app-map class="col-md-6 col-sm-8 col-xs-9 game-obj"
+      [items]="items"
+      [(currentMap)]="currentMap"
+      [config]="config"
+      (addedItem)="onAddedItem($event, 'get')"
+      (viewItem)="onAddedItem($event, 'view')"
+      (cantItem)="onCantItem($event)"
+      (hintCheck)="onHintChecked($event)"
+      (finishedDungeon)="onDungeonFinished($event)"
+      (onGameFinished)="onGameFinished()">
+    </app-map>
+    <app-item-log class="col-md-3 col-xs-12 game-obj"
+      [itemLogList]="itemLog"
+      [items]="items">
+    </app-item-log>
+    <app-options></app-options>
+    <app-game-menu class="col-sm-6 game-obj"
+      [items]="items"
+      [currentMap]="currentMap">
+    </app-game-menu>
   </div>
-  <div>
-    <button class="btn btn-primary" type="button" (click)="onBackMainMenu()">
+}
+@if (gameState === 'finished') {
+  <div class="container">
+    <div>
+      <app-end-stats
+        [items]="items"
+        [config]="config">
+      </app-end-stats>
+    </div>
+    <div>
+      <button class="btn btn-primary" type="button" (click)="onBackMainMenu()">
       Return to Main Menu</button>
-    <button class="btn btn-primary" type="button" (click)="onContinuePlaying()">
+      <button class="btn btn-primary" type="button" (click)="onContinuePlaying()">
       Continue Playing</button>
+    </div>
   </div>
-</div>
+}
 
-<button *ngIf="isDev" (click)="onCreditWarp()">Credits Warp</button>
+@if (isDev) {
+  <button (click)="onCreditWarp()">Credits Warp</button>
+}

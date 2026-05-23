@@ -1,30 +1,42 @@
-<div class="node" *ngIf="isItem" [ngClass]="isTransparent()" [style.background-image]="getBgImg()">
-  <span class="counter not-selectable outline-text" *ngIf="itemName === 'health'">{{ items.totalHealth }}</span>
-  <span class="counter counter-smaller not-selectable outline-text" *ngIf="itemName === 'triforcePieces'">{{ items.triforcePieces }}/20</span>
-</div>
-<span class="not-selectable outline-text mm-medallion-text" *ngIf="isItem && (itemName === 'bombos' || itemName === 'ether' || itemName === 'quake')" [ngClass]="checkMmMedallion()">MM</span>
-  <span class="not-selectable outline-text tr-medallion-text" *ngIf="isItem && (itemName === 'bombos' || itemName === 'ether' || itemName === 'quake')" [ngClass]="checkTrMedallion()">TR</span>
-<div class="dungeon-node" *ngIf="!isItem">
-  <div>
-    <figure [ngClass]="getDungeonBeatenClass()" [style.background-image]="getDungeonBg()">
-    </figure>
-    <div class="dungeon-initials" [style.background-image]="getDungeonInitials()">
+@if (isItem) {
+  <div class="node" [ngClass]="isTransparent()" [style.background-image]="getBgImg()">
+    @if (itemName === 'health') {
+      <span class="counter not-selectable outline-text">{{ items.totalHealth }}</span>
+    }
+    @if (itemName === 'triforcePieces') {
+      <span class="counter counter-smaller not-selectable outline-text">{{ items.triforcePieces }}/20</span>
+    }
+  </div>
+}
+@if (isItem && (itemName === 'bombos' || itemName === 'ether' || itemName === 'quake')) {
+  <span class="not-selectable outline-text mm-medallion-text" [ngClass]="checkMmMedallion()">MM</span>
+}
+@if (isItem && (itemName === 'bombos' || itemName === 'ether' || itemName === 'quake')) {
+  <span class="not-selectable outline-text tr-medallion-text" [ngClass]="checkTrMedallion()">TR</span>
+}
+@if (!isItem) {
+  <div class="dungeon-node">
+    <div>
+      <figure [ngClass]="getDungeonBeatenClass()" [style.background-image]="getDungeonBg()">
+      </figure>
+      <div class="dungeon-initials" [style.background-image]="getDungeonInitials()">
+      </div>
+      <div class="dungeon-prize" [ngClass]="isAgaTowerOrGt ? 'invisible' : ''" [style.background-image]="getDungeonPrizeBg()">
+      </div>
     </div>
-    <div class="dungeon-prize" [ngClass]="isAgaTowerOrGt ? 'invisible' : ''" [style.background-image]="getDungeonPrizeBg()">
+    @if (config.dungeonItems === 'mcs' || config.dungeonItems === 'full' || config.isMystery) {
+      <div class="dungeon-keys">
+        <div class="big-key-icon" [ngClass]="getBigKeyIconClass()">
+        </div>
+        <div class="small-keys-icon" [ngClass]="getSmallKeysIconClass()">
+          <span class="small-keys-text not-selectable outline-text">
+            {{ keyCountText }}
+          </span>
+        </div>
+      </div>
+    }
+    <div class="dungeon-chest outline-text not-selectable" [style.background-image]="getDungeonChestCountBg()">
+      {{ chestCountText }}
     </div>
   </div>
-  <div class="dungeon-keys" *ngIf="config.dungeonItems === 'mcs' || config.dungeonItems === 'full' || config.isMystery">
-    <div class="big-key-icon" [ngClass]="getBigKeyIconClass()">
-
-    </div>
-    <div class="small-keys-icon" [ngClass]="getSmallKeysIconClass()">
-      <span class="small-keys-text not-selectable outline-text">
-          {{ keyCountText }}
-      </span>
-
-    </div>
-  </div>
-  <div class="dungeon-chest outline-text not-selectable" [style.background-image]="getDungeonChestCountBg()">
-    {{ chestCountText }}
-  </div>
-</div>
+}

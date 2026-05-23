@@ -1,6 +1,6 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit, Input, Output, EventEmitter, isDevMode } from '@angular/core';
-import { Location, NgIf } from '@angular/common';
+import { Location } from '@angular/common';
 import { GameService } from '../../services/game.service';
 import { SeedService } from '../../services/seed.service';
 import { ItemNamesService } from '../../services/item-names.service';
@@ -19,7 +19,7 @@ import { EndStatsComponent } from '../end-stats/end-stats.component';
     selector: 'app-game',
     templateUrl: './game.component.html',
     styleUrls: ['./game.component.css'],
-    imports: [NgIf, ItemTrackerComponent, DungeonItemsComponent, ItemLogComponent, OptionsComponent, GameMenuComponent, EndStatsComponent]
+    imports: [ItemTrackerComponent, DungeonItemsComponent, ItemLogComponent, OptionsComponent, GameMenuComponent, EndStatsComponent]
 })
 export class GameComponent implements OnInit {
   modeSelected: string;

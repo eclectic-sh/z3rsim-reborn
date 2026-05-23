@@ -9,7 +9,7 @@ import { Dungeon } from '../../models/dungeon.model';
 import { DungeonMap } from '../../models/dungeon-map.model';
 import { DungeonNode } from '../../models/dungeon-node.model';
 import { DungeonPrize } from '../../models/dungeon-prize.enum';
-import { NgStyle, NgIf, NgFor } from '@angular/common';
+import { NgStyle } from '@angular/common';
 import { NodeComponent } from '../node/node.component';
 import { DungeonItemCountComponent } from '../dungeon-item-count/dungeon-item-count.component';
 
@@ -17,7 +17,7 @@ import { DungeonItemCountComponent } from '../dungeon-item-count/dungeon-item-co
     selector: 'app-map',
     templateUrl: './dungeon-items.component.html',
     styleUrls: ['./dungeon-items.component.css'],
-    imports: [NgStyle, NgIf, NgFor, NodeComponent, DungeonItemCountComponent]
+    imports: [NgStyle, NodeComponent, DungeonItemCountComponent]
 })
 export class DungeonItemsComponent implements OnInit {
   isDev: boolean;

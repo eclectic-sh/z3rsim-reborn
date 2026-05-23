@@ -4,13 +4,13 @@ import { NodeStatus } from '../../models/node-status.enum';
 import { Items } from '../../models/items.model';
 import { Config } from '../../models/config.model';
 import { DungeonPrize } from '../../models/dungeon-prize.enum';
-import { NgClass, NgStyle, NgIf } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-node',
     templateUrl: './node.component.html',
     styleUrls: ['./node.component.css'],
-    imports: [NgClass, NgStyle, NgIf]
+    imports: [NgClass, NgStyle]
 })
 export class NodeComponent implements OnInit {
   nodeX: string;
