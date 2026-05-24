@@ -1,0 +1,16 @@
+[Unit]
+Description=Z3R Simulator CORS Proxy - forwards to alttpr.com with rate limiting
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/z3r-cors-proxy
+ExecStart=/usr/bin/node /home/ubuntu/z3r-cors-proxy/index.js
+Restart=always
+RestartSec=5
+Environment=NODE_ENV=production
+Environment=PORT=3003
+
+[Install]
+WantedBy=multi-user.target
