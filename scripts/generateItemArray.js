@@ -51,6 +51,7 @@ function generateItemArray(spoilerLogData, itemNameToFullItemMapData, spoilerToD
             // Look up item in itemNameToFullItemMap
             const itemMapping = itemNameToFullItemMap[cleanItemName];
             if (!itemMapping) {
+                console.log("failed to find mapping for " + itemName + " in " + JSON.stringify(itemNameToFullItemMap))
                 // Skip unmapped items silently for in-memory version
                 continue;
             }
