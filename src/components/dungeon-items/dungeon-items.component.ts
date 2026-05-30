@@ -1,6 +1,6 @@
 import { GameService } from '../../services/game.service';
 import { Component, OnInit, Input, Output, EventEmitter, isDevMode } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 import { ItemNamesService } from '../../services/item-names.service';
 import { SeedReportService } from '../../services/seed-report.service';
 import { NodeStatus } from '../../models/node-status.enum';
@@ -19,7 +19,7 @@ import { DungeonItemCountComponent } from '../dungeon-item-count/dungeon-item-co
     selector: 'app-map',
     templateUrl: './dungeon-items.component.html',
     styleUrls: ['./dungeon-items.component.css'],
-    imports: [NgStyle, NodeComponent, DungeonItemCountComponent, FormsModule]
+    imports: [NgStyle, NodeComponent, DungeonItemCountComponent, FormsModule, ModalModule]
 })
 export class DungeonItemsComponent implements OnInit {
   isDev: boolean;
