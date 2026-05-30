@@ -79,6 +79,9 @@ import { WindowRef } from './services/window-ref.service';
     ],
     providers: [
     ],
+    exports: [
+        ModalModule 
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

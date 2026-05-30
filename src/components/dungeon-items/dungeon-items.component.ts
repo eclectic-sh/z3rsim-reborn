@@ -1,6 +1,6 @@
 import { GameService } from '../../services/game.service';
-import { Component, OnInit, Input, Output, EventEmitter, isDevMode } from '@angular/core';
-import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
+import { Component, OnInit, Input, Output, EventEmitter, isDevMode, ViewChild } from '@angular/core';
+import { BsModalService, ModalDirective, ModalModule } from 'ngx-bootstrap/modal';
 import { ItemNamesService } from '../../services/item-names.service';
 import { SeedReportService } from '../../services/seed-report.service';
 import { NodeStatus } from '../../models/node-status.enum';
@@ -14,14 +14,18 @@ import { NgStyle } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NodeComponent } from '../node/node.component';
 import { DungeonItemCountComponent } from '../dungeon-item-count/dungeon-item-count.component';
+import { AlertComponent } from 'ngx-bootstrap/alert';
+import { SeedService } from '../../services/seed.service';
 
 @Component({
     selector: 'app-map',
     templateUrl: './dungeon-items.component.html',
     styleUrls: ['./dungeon-items.component.css'],
-    imports: [NgStyle, NodeComponent, DungeonItemCountComponent, FormsModule, ModalModule]
+    imports: [NgStyle, NodeComponent, DungeonItemCountComponent, FormsModule, ModalModule, AlertComponent]
 })
 export class DungeonItemsComponent implements OnInit {
+  @ViewChild('childModal') childModal!: ModalDirective;
+  isModalOpen = false
   isDev: boolean;
   hasUsedMirror: boolean;
   currentRegion: string;
@@ -63,6 +67,8 @@ export class DungeonItemsComponent implements OnInit {
     private gameService: GameService,
     private _modalService: BsModalService,
     private itemNameService: ItemNamesService,
+    private _seedService: SeedService,
+    
     private _seedReportService: SeedReportService,
   ) {
     this.isSubmittingReport = false;
@@ -1183,12 +1189,19 @@ export class DungeonItemsComponent implements OnInit {
     }
   }
 
-  openModal(template: any) {
+  openModal() {
     this.reportDescription = '';
     this.reportMessage = '';
     this.reportError = '';
     this.isSubmittingReport = false;
-    this.modalRef = this._modalService.show(template);
+    // this.modalRef = this._modalService.show(template);
+    if (this.childModal) {
+      this.childModal.show();
+      this.isModalOpen = true
+      console.log('show() was called on the directive.');
+    } else {
+      console.error('Error: childModal reference is undefined!');
+    }
   }
 
   copyClipboard() {
@@ -1204,7 +1217,8 @@ export class DungeonItemsComponent implements OnInit {
   }
 
   closeModal() {
-    this.modalRef.hide();
+    this.childModal.hide();
+    this.isModalOpen = false;
     this.clipboardMessage = '';
     this.reportDescription = '';
     this.reportMessage = '';
@@ -1226,18 +1240,21 @@ export class DungeonItemsComponent implements OnInit {
     this.reportMessage = '';
     this.reportError = '';
 
-    var seedHash = this.config.data || '';
-    var seedData = this.config.data || '';
+    var seedHash = localStorage.getItem('seedHash');
+    var seedData = this._seedService.buildStringUrl()
 
     this._seedReportService.submitReport(seedHash, this.reportDescription, seedData).then(
       (response) => {
         this.isSubmittingReport = false;
         this.reportMessage = response.message || 'Report submitted successfully!';
+        alert(this.reportMessage);
+
         this.reportDescription = '';
       },
       (error) => {
         this.isSubmittingReport = false;
         this.reportError = error.message || 'Failed to submit report. Please try again later.';
+        alert(this.reportError);
       }
     );
   }
