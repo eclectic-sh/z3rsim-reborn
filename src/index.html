@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <base href="/">
   <title>Z3R Simulator</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <link rel="icon" type="image/x-icon" href="assets/triforce.png">
   <link rel="manifest" href="manifest.json">
-</head>
 <script>
   // Single Page Apps for GitHub Pages
   // MIT License
@@ -30,16 +30,7 @@
     }
   }(window.location))
 </script>
-<script>
-  // Dynamically set base href based on current URL
-  // For GitHub Pages: https://DerpaholicRex.github.io/z3rsim-reborn/
-  // Update the fallback path to match your repo name
-  const repoName = 'z3rsim-reborn';
-  const baseHref = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? '/'
-    : '/' + repoName + '/';
-  document.write('<base href="' + baseHref + '">');
-</script>
+</head>
 <body>
   <app-root></app-root>
 
